@@ -1,62 +1,57 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MovimientoMaleta : MonoBehaviour
+public class FirstPersonController : MonoBehaviour
 {
-    [Header("Movimiento")]
-    public float speed = 10f;
+    public float speed = 5f;
     public float mouseSensitivity = 2f;
+    public Transform playerCamera;
     public float verticalRotation = 0f;
     public float jumpForce = 2f;
-    
-    private float mouseX;
-    private float mouseY;
-    private float horizontalInput;
-    private float verticalInput;
-    private bool isGrounded;
-    private Vector3 velocity;
-    private float gravity = -9.81f;
+    public float gravity = -9.81f;
+    public float pushForce = 3f;
 
-    [Header("Referencias")]
-    public Transform maletaCamara;
     private CharacterController controller;
+    private Vector3 velocity;
+    private bool isGrounded;
 
     void Start()
     {
-        // Bloquea el cursor en el centro de la pantalla
-        Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
         controller = GetComponent<CharacterController>();
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        // Rotación con el mouse
-        mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
-        mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
         transform.Rotate(Vector3.up * mouseX);
         verticalRotation -= mouseY;
         verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
-        maletaCamara.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
+        playerCamera.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
 
-        // Movimiento con teclas
-        horizontalInput = Input.GetAxis("Horizontal");
-        verticalInput = Input.GetAxis("Vertical");
-
-        Vector3 move = transform.right * horizontalInput + transform.forward * verticalInput;
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
+        Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * speed * Time.deltaTime);
 
-        //Gravedad
+        // Gravedad
         isGrounded = controller.isGrounded;
-        if (!isGrounded && velocity.y < 0)
-            {
-                velocity.y = -2f;
-            }
-
+        if (isGrounded && velocity.y < 0) velocity.y = -2f;
+        if (Input.GetButtonDown("Jump") && isGrounded)
+            velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
-    }
+
+
+        Ray ray = new Ray(playerCamera.position, playerCamera.forward);
+        if (Physics.Raycast(ray, out RaycastHit hit, 1.5f))
+        {
+            Rigidbody rb = hit.collider.attachedRigidbody;
+            if (rb != null && !rb.isKinematic)
+            {
+                rb.AddForce(playerCamera.forward * pushForce, ForceMode.Impulse);
+            }
+        }
+    }
 }
