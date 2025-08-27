@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Movimientopj : MonoBehaviour
@@ -46,14 +49,32 @@ public class Movimientopj : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
 
-        if(x != 0 || z != 0)
+        if(z != 0)
             {
-                anim.SetFloat("Jog", Math.Abs(x) + Math.Abs(z));
+                anim.SetFloat("trote", Math.Abs(x) + Math.Abs(z));
             }
             else
             {
-                anim.SetFloat("Jog", 0);
+                anim.SetFloat("trote", 0);
             }
+
+        if (x < 0)
+        {
+            anim.SetFloat("izq", Math.Abs(x));
+        }
+        else
+        {
+            anim.SetFloat("izq", 0);
+        }
+
+        if (x > 0)
+        {
+            anim.SetFloat("der", Math.Abs(x));
+        }
+        else
+        {
+            anim.SetFloat("der", 0);
+        }
 
         Ray ray = new Ray(playerCamera.position, playerCamera.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, 1.5f))
