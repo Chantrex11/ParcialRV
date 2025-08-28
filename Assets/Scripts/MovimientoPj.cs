@@ -33,7 +33,7 @@ public class Movimientopj : MonoBehaviour
 
         transform.Rotate(Vector3.up * mouseX);
         verticalRotation -= mouseY;
-        verticalRotation = Mathf.Clamp(verticalRotation, -45f, 65f);
+        verticalRotation = Mathf.Clamp(verticalRotation, -45f, 55f);
         playerCamera.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
 
         float x = Input.GetAxis("Horizontal");

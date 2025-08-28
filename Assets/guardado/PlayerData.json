@@ -1,0 +1,11 @@
+{
+    "players": [
+        {
+            "Name": "san",
+            "Email": "san@",
+            "Age": 20,
+            "City": "cali",
+            "puntos": 0
+        }
+    ]
+}
