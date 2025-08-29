@@ -14,8 +14,8 @@ public class ThirdPersonMovement : MonoBehaviour
     [Header("Cámara")]
     public Transform cam;               
     public float mouseSensitivity = 3f;
-    public float pitchMin = -30f;
-    public float pitchMax = 60f;
+    public float visionMin = -30f;
+    public float visionMax = 60f;
     public float camDistance = 5f;
 
     private CharacterController controller;
@@ -78,7 +78,7 @@ public class ThirdPersonMovement : MonoBehaviour
     {
         yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
         pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
-        pitch = Mathf.Clamp(pitch, pitchMin, pitchMax);
+        pitch = Mathf.Clamp(pitch, visionMin, visionMax);
 
         Quaternion rotation = Quaternion.Euler(pitch, yaw, 0);
         Vector3 desiredPosition = transform.position + rotation * new Vector3(0, 0, -camDistance);
