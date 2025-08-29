@@ -8,6 +8,7 @@ using TMPro;
 public class DialogoTuto : MonoBehaviour
 {
     [SerializeField] private GameObject luzDialogo;
+    [SerializeField] private GameObject Canvas;
     [SerializeField] private GameObject dialogoPanel;
     [SerializeField] private TextMeshProUGUI dialogoTexto;
     [SerializeField, TextArea(4, 6)] private String[] lineasDialogo;
@@ -24,9 +25,20 @@ public class DialogoTuto : MonoBehaviour
         {
             if (!isDialogoActive)
             {
-                empezarDialogo(); 
+                empezarDialogo();
             }
-            
+            else
+            {
+                if (dialogoTexto.text == lineasDialogo[lineIndex])
+                {
+                    siguienteDialogo();
+                }
+                else
+                {
+                    StopAllCoroutines();
+                    dialogoTexto.text = lineasDialogo[lineIndex];
+                }
+            }
         }
     }
 
@@ -36,6 +48,7 @@ public class DialogoTuto : MonoBehaviour
         dialogoPanel.SetActive(true);
         luzDialogo.SetActive(false);
         lineIndex = 0;
+        Time.timeScale = 0f; // Pausa el juego
         StartCoroutine(EscribirTexto());
     }
 
@@ -45,7 +58,23 @@ public class DialogoTuto : MonoBehaviour
         foreach (char letra in lineasDialogo[lineIndex])
         {
             dialogoTexto.text += letra;
-            yield return new WaitForSeconds(tiempoEscritura);
+            yield return new WaitForSecondsRealtime(tiempoEscritura);
+        }
+    }
+
+    private void siguienteDialogo()
+    {
+        lineIndex++;
+        if (lineIndex < lineasDialogo.Length)
+        {
+            StartCoroutine(EscribirTexto());
+        }
+        else
+        {
+            isDialogoActive = false;
+            dialogoPanel.SetActive(false);
+            luzDialogo.SetActive(true);
+            Time.timeScale = 1f; // Reanuda el juego
         }
     }
 
@@ -53,8 +82,9 @@ public class DialogoTuto : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            luzDialogo.SetActive(true);
+            luzDialogo.SetActive(false);
             isPlayerRange = true;
+            Canvas.SetActive(true);
         }
     }
 
@@ -62,8 +92,9 @@ public class DialogoTuto : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            luzDialogo.SetActive(false);
+            luzDialogo.SetActive(true);
             isPlayerRange = false;
+            Canvas.SetActive(false);
         }
     }
 }
