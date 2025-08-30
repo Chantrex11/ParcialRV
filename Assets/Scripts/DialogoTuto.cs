@@ -11,13 +11,22 @@ public class DialogoTuto : MonoBehaviour
     [SerializeField] private GameObject Canvas;
     [SerializeField] private GameObject dialogoPanel;
     [SerializeField] private TextMeshProUGUI dialogoTexto;
+    [SerializeField] private float tiempoEscritura;
+    [SerializeField] private AudioClip sonidoEscritura;
     [SerializeField, TextArea(4, 6)] private String[] lineasDialogo;
+    
 
-
-    private float tiempoEscritura = 0.05f;
     private bool isPlayerRange;
     private bool isDialogoActive;
-    private int lineIndex;
+   private int lineIndex;
+   private AudioSource audio;
+
+
+    void Start()
+    {
+        audio = GetComponent<AudioSource>();
+        audio.clip = sonidoEscritura;
+    }
 
     void Update()
     {
@@ -57,6 +66,7 @@ public class DialogoTuto : MonoBehaviour
         dialogoTexto.text = "";
         foreach (char letra in lineasDialogo[lineIndex])
         {
+            audio.Play();
             dialogoTexto.text += letra;
             yield return new WaitForSecondsRealtime(tiempoEscritura);
         }
