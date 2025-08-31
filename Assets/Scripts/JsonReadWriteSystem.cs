@@ -10,6 +10,7 @@ public class JsonReadWriteSystem : MonoBehaviour
     [SerializeField] private InputField emailInputField;
     [SerializeField] private InputField ageInputField;
     [SerializeField] private InputField cityInputField;
+    [SerializeField] private AudioSource click;
 
     [Serializable]
 
@@ -65,6 +66,8 @@ public class JsonReadWriteSystem : MonoBehaviour
         newPlayer.Age = int.Parse(ageInputField.text);
         newPlayer.City = cityInputField.text;
 
+        click.Play(); // Reproducir sonido de clic
+
         //  Validar duplicados por Nombre o Email
         foreach (var player in playerList.players)
         {
@@ -84,6 +87,7 @@ public class JsonReadWriteSystem : MonoBehaviour
 
     public void LoadFromJson()
     {
+        click.Play();
         if (!File.Exists(filePath)) return;
 
         string json = File.ReadAllText(filePath);
@@ -106,7 +110,7 @@ public class JsonReadWriteSystem : MonoBehaviour
 
         playerList = new PlayerList();
         playerList.players = new List<PlayerData>(); // asegurar que se escriba la lista vacía
-
+        click.Play(); 
         string json = JsonUtility.ToJson(playerList, true);
         File.WriteAllText(filePath, json);
 
@@ -115,7 +119,7 @@ public class JsonReadWriteSystem : MonoBehaviour
     public PlayerData GetLastPlayer()
     {
         LoadFromJson();
-
+        click.Play();
         if (playerList.players.Count == 0)
         {
             return null;

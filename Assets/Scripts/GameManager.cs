@@ -28,6 +28,9 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        nombreJugadorText.text = jsonSystem.GetLastPlayer().Name;
+        if (jsonSystem.GetLastPlayer() != null)
+        {
+            nombreJugadorText.text = jsonSystem.GetLastPlayer().Name;
+        }
     }
 }

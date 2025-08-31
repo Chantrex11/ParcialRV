@@ -11,6 +11,7 @@ public class EscenaManager : MonoBehaviour
     public static EscenaManager instance;
     [SerializeField] Animator transition;
     [SerializeField] private Canvas nombreJugador;
+    [SerializeField] private AudioSource click;
 
     private void Awake()
     {
@@ -28,29 +29,32 @@ public class EscenaManager : MonoBehaviour
     public void NextLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        
+        click.Play();
     }
 
     public void tutorial()
     {
         SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
-
+        click.Play();
     }
 
     public void juego()
     {
         SceneManager.LoadScene("Juego", LoadSceneMode.Single);
+        click.Play();
 
     }
 
     public void menu()
     {
         SceneManager.LoadScene("Menu", LoadSceneMode.Single);
+        click.Play();
     }
-    
+
     public void EjecutarCargarNivel()
     {
         StartCoroutine(CargarNivel());
+        click.Play();
     }
 
     public IEnumerator CargarNivel()
@@ -64,6 +68,8 @@ public class EscenaManager : MonoBehaviour
 
     public void salirJuego()
     {
+        click.Play();
         Application.Quit();
+
     }
 }
