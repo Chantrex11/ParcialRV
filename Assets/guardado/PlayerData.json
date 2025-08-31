@@ -1,10 +1,38 @@
 {
     "players": [
         {
-            "Name": "tiago",
-            "Email": "tiago@",
+            "Name": "oleee",
+            "Email": "oleee@",
             "Age": 20,
             "City": "cali",
+            "puntos": 0
+        },
+        {
+            "Name": "yto",
+            "Email": "yto@",
+            "Age": 20,
+            "City": "cali",
+            "puntos": 0
+        },
+        {
+            "Name": "san",
+            "Email": "san@",
+            "Age": 20,
+            "City": "cali",
+            "puntos": 0
+        },
+        {
+            "Name": "elyo",
+            "Email": "elyo@gmail.com",
+            "Age": 20,
+            "City": "cali",
+            "puntos": 0
+        },
+        {
+            "Name": "Santiago",
+            "Email": "chantre@gmail.com",
+            "Age": 40,
+            "City": "Cali",
             "puntos": 0
         }
     ]

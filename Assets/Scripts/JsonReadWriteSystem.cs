@@ -6,13 +6,13 @@ using UnityEngine.UI;
 
 public class JsonReadWriteSystem : MonoBehaviour
 {
-    public InputField nameInputField;
-    public InputField emailInputField;
-    public InputField ageInputField;
-    public InputField cityInputField;
-
+    [SerializeField] private InputField nameInputField;
+    [SerializeField] private InputField emailInputField;
+    [SerializeField] private InputField ageInputField;
+    [SerializeField] private InputField cityInputField;
 
     [Serializable]
+
     public class PlayerData
     {
         public string Name;
@@ -38,6 +38,7 @@ public class JsonReadWriteSystem : MonoBehaviour
 
     void Awake()
     {
+        
         filePath = Application.dataPath + "/guardado/PlayerData.json";
 
         if (File.Exists(filePath))
@@ -69,7 +70,6 @@ public class JsonReadWriteSystem : MonoBehaviour
         {
             if (player.Name == newPlayer.Name || player.Email == newPlayer.Email)
             {
-                Debug.LogWarning("Ya existe un jugador con ese nombre o correo. No se guardará.");
                 return; // No guardamos nada
             }
         }
@@ -80,7 +80,6 @@ public class JsonReadWriteSystem : MonoBehaviour
         string json = JsonUtility.ToJson(playerList, true);
         File.WriteAllText(filePath, json);
 
-        Debug.Log("Jugador guardado con éxito.");
     }
 
     public void LoadFromJson()
@@ -90,6 +89,7 @@ public class JsonReadWriteSystem : MonoBehaviour
         string json = File.ReadAllText(filePath);
         playerList = JsonUtility.FromJson<PlayerList>(json);
 
+        /*
         if (playerList.players.Count > 0)
         {
             PlayerData data = playerList.players[playerList.players.Count - 1];
@@ -98,17 +98,30 @@ public class JsonReadWriteSystem : MonoBehaviour
             ageInputField.text = data.Age.ToString();
             cityInputField.text = data.City;
         }
+        */
     }
 
     public void ResetJson()
     {
-        Debug.Log("Reseteando JSON...");
+
         playerList = new PlayerList();
         playerList.players = new List<PlayerData>(); // asegurar que se escriba la lista vacía
 
         string json = JsonUtility.ToJson(playerList, true);
         File.WriteAllText(filePath, json);
 
-        Debug.Log("JSON reseteado: " + json);
     }
+
+    public PlayerData GetLastPlayer()
+    {
+        LoadFromJson();
+
+        if (playerList.players.Count == 0)
+        {
+            return null;
+        }
+
+        return playerList.players[playerList.players.Count - 1];
+        }
+
 }
