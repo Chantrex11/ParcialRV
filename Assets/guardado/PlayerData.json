@@ -1,16 +1,9 @@
 {
     "players": [
         {
-            "Name": "san",
-            "Email": "san@",
+            "Name": "tiago",
+            "Email": "tiago@",
             "Age": 20,
-            "City": "cali",
-            "puntos": 0
-        },
-        {
-            "Name": "jean",
-            "Email": "jean@",
-            "Age": 19,
             "City": "cali",
             "puntos": 0
         }

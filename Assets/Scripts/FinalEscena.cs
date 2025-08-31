@@ -6,6 +6,7 @@ public class FinalEscena : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
+            Time.timeScale = 0f; // Pausa el juego
             StartCoroutine(EscenaManager.instance.CargarNivel());
         }
     }

@@ -45,6 +45,7 @@ public class EscenaManager : MonoBehaviour
 
     public IEnumerator CargarNivel()
     {
+        Time.timeScale = 1f; // Reanuda el juego
         transition.SetTrigger("End");
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
