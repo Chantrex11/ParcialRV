@@ -7,8 +7,8 @@ public class ObjetoRecogible : MonoBehaviour
     public float peso = 1f;
 
     [Header("Flotación")]
-    public float amplitud = 0.5f;
-    public float velocidadFlotar = 2f;
+    public float amplitud = 0.1f;
+    public float velocidadFlotar = 4f;
 
     [Header("Interacción")]
     public float radioInteraccion = 2f;
