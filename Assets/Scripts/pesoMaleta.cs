@@ -18,38 +18,23 @@ public class PesoMaleta : MonoBehaviour
         ActualizarTexto();
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        ObjetoRecogible objeto = other.GetComponent<ObjetoRecogible>();
-        if (objeto != null)
-        {
-            AgregarObjeto(objeto.peso);
-            Destroy(other.gameObject);
-        }
-    }
-
-    public void AgregarObjeto(float pesoObjeto)
+    public bool AgregarObjeto(float pesoObjeto)
     {
         if (pesoMaleta + pesoObjetos + pesoObjeto <= capacidadMaxima)
         {
             pesoObjetos += pesoObjeto;
-            Debug.Log("Objeto agregado. Peso total actual: " + ObtenerPesoTotal() + " kg");
+            ActualizarTexto();
+            return true;
         }
         else
         {
-            Debug.Log("No se puede agregar. Se supera el límite de " + capacidadMaxima + " kg");
+            return false; 
         }
-        ActualizarTexto();  
     }
 
     public float ObtenerPesoTotal()
     {
         return pesoMaleta + pesoObjetos;
-    }
-
-    public float ObtenerEspacioDisponible()
-    {
-        return capacidadMaxima - ObtenerPesoTotal();
     }
 
     private void ActualizarTexto()
