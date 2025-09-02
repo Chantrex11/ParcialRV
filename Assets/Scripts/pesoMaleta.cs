@@ -4,17 +4,23 @@ using TMPro;
 public class PesoMaleta : MonoBehaviour
 {
     [Header("Configuración de la maleta")]
-    public float capacidadMaxima = 23f;   
-    public float pesoMaleta = 4f;          
+    public float capacidadMaxima = 23f;
+    public float pesoMaleta = 4f;
 
     [Header("Estado actual")]
-    public float pesoObjetos = 0f;         
+    public float pesoObjetos = 0f;
 
     [Header("UI")]
-    public TextMeshProUGUI textoPeso; 
+    public TextMeshProUGUI textoPeso;
 
     [Header("Referencia a introMaleta")]
-    public introMaleta introScript; // Arrastra tu objeto con el script introMaleta
+    public introMaleta introScript;
+
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip sonidoError;
+    public TextMeshProUGUI textoAdvertencia;
+
 
     private void Start()
     {
@@ -35,16 +41,18 @@ public class PesoMaleta : MonoBehaviour
 
     public bool AgregarObjeto(float pesoObjeto)
     {
-        if (pesoMaleta + pesoObjetos + pesoObjeto <= capacidadMaxima)
+        float nuevoPeso = pesoMaleta + pesoObjetos + pesoObjeto;
+
+        if (nuevoPeso > capacidadMaxima)
         {
-            pesoObjetos += pesoObjeto;
-            ActualizarTexto();
-            return true;
+            if (audioSource != null && sonidoError != null)
+                audioSource.PlayOneShot(sonidoError);
+            return false;
+
         }
-        else
-        {
-            return false; 
-        }
+        pesoObjetos += pesoObjeto;
+        ActualizarTexto();
+        return true;
     }
 
     public float ObtenerPesoTotal()
@@ -58,5 +66,21 @@ public class PesoMaleta : MonoBehaviour
         {
             textoPeso.text = "Peso: " + ObtenerPesoTotal().ToString("F1") + " | " + capacidadMaxima + " kg";
         }
+    }
+    
+    public void MostrarAdvertencia(string mensaje, float duracion = 2f)
+    {
+        if (textoAdvertencia != null)
+        {
+            textoAdvertencia.text = mensaje;
+            textoAdvertencia.gameObject.SetActive(true);
+            CancelInvoke("OcultarAdvertencia");
+            Invoke("OcultarAdvertencia", duracion);
+        }
+    }
+
+    private void OcultarAdvertencia()
+    {
+        textoAdvertencia.gameObject.SetActive(false);
     }
 }

@@ -13,6 +13,7 @@ public class ObjetoRecogible : MonoBehaviour
     [Header("Interacción")]
     public float radioInteraccion = 2f;
     public TextMeshProUGUI textoUI;
+    public TextMeshProUGUI textoAdvertencia;
 
     private Vector3 posicionInicial;
     private Transform jugador;
@@ -66,6 +67,14 @@ public class ObjetoRecogible : MonoBehaviour
                     if (jsonSystem != null)
                         jsonSystem.ContarPuntos(peso);
                 }
+                else
+                {
+                    if (maleta.audioSource != null && maleta.sonidoError != null)
+                        maleta.audioSource.PlayOneShot(maleta.sonidoError);
+
+                    if (maleta.textoAdvertencia != null)
+                        maleta.MostrarAdvertencia("Te estás pasando del peso máximo");
+                }
             }
             if (Input.GetKeyDown(KeyCode.X))
             {
@@ -79,5 +88,8 @@ public class ObjetoRecogible : MonoBehaviour
             if (textoUI != null)
                 textoUI.gameObject.SetActive(false);
         }
+        
+        
     }
+    
 }
