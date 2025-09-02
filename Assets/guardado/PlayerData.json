@@ -1,18 +1,18 @@
 {
     "players": [
         {
-            "Name": "san",
-            "Email": "sad",
-            "Age": 20,
-            "City": "dasfdas",
-            "puntos": 4.099999904632568
+            "Name": "Pedro porriño",
+            "Email": "zorrita ",
+            "Age": 90,
+            "City": "cali",
+            "puntos": 4.0
         },
         {
-            "Name": "yo",
-            "Email": "yiiy",
-            "Age": 564,
-            "City": "yoyo",
-            "puntos": 5.5
+            "Name": "pedrito porrito",
+            "Email": "da",
+            "Age": 3,
+            "City": "ds",
+            "puntos": 7.5
         }
     ]
 }

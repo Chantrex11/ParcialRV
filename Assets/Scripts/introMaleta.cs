@@ -31,7 +31,6 @@ public class introMaleta : MonoBehaviour
         if (scriptMovimientoJugador != null)
             scriptMovimientoJugador.enabled = false;
 
-        // Configuración inicial de cámaras
         if (camaraCelular != null) camaraCelular.enabled = true;
         if (camaraIntro != null) camaraIntro.enabled = false;
         if (camaraGameplay != null) camaraGameplay.enabled = false;
@@ -52,16 +51,23 @@ public class introMaleta : MonoBehaviour
 
             if (puntoInicioJugador != null)
             {
-                Debug.Log("Moviendo maleta al punto de inicio: " + puntoInicioJugador.position);
-                transform.position = puntoInicioJugador.position;
-                transform.rotation = Quaternion.Euler(0f, 0f, 0f); 
-            }
-            else
-            {
-                Debug.LogWarning("No se asignó puntoInicioJugador, solo girando maleta.");
-                transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-            }
+                Rigidbody rb = GetComponent<Rigidbody>();
+                if (rb != null)
+                {
 
+                    rb.isKinematic = true;
+                }
+
+                transform.position = puntoInicioJugador.position;
+                transform.rotation = puntoInicioJugador.rotation;
+
+                if (rb != null)
+                {
+                    rb.isKinematic = false;
+                }
+
+                Debug.Log("Maleta movida exactamente al Empty: " + puntoInicioJugador.position);
+            }
             activo = true;
 
             if (scriptMovimientoJugador != null)

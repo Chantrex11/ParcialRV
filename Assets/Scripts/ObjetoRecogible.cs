@@ -11,7 +11,7 @@ public class ObjetoRecogible : MonoBehaviour
     public float velocidadFlotar = 4f;
 
     [Header("Interacción")]
-    public float radioInteraccion = 2f;
+    public float radioInteraccion = 2f;   // Distancia para poder coger
     public TextMeshProUGUI textoUI;
 
     private Vector3 posicionInicial;
@@ -22,12 +22,13 @@ public class ObjetoRecogible : MonoBehaviour
 
     void Start()
     {
-            if (jsonSystem == null)
-            {
-                jsonSystem = FindObjectOfType<JsonReadWriteSystem>();
-            }
+        if (jsonSystem == null)
+            jsonSystem = FindObjectOfType<JsonReadWriteSystem>();
+
         posicionInicial = transform.position;
-        GameObject objJugador = GameObject.FindGameObjectWithTag("Player");
+
+        // Buscar jugador (Maleta)
+        GameObject objJugador = GameObject.FindGameObjectWithTag("Maleta");
         if (objJugador != null)
             jugador = objJugador.transform;
 
@@ -39,29 +40,29 @@ public class ObjetoRecogible : MonoBehaviour
 
     void Update()
     {
+        // Movimiento flotante decorativo
         float nuevaY = posicionInicial.y + Mathf.Sin(Time.time * velocidadFlotar) * amplitud;
         transform.position = new Vector3(transform.position.x, nuevaY, transform.position.z);
 
         if (jugador == null) return;
 
+        // Calculamos la distancia al jugador
         float distancia = Vector3.Distance(transform.position, jugador.position);
 
         if (distancia <= radioInteraccion)
         {
             if (textoUI != null)
-            {
                 textoUI.enabled = true;
-            }
 
+            // Si presiona E, recoger objeto
             if (Input.GetKeyDown(KeyCode.E) && maleta != null)
             {
                 if (maleta.AgregarObjeto(peso))
                 {
+                    jsonSystem.ContarPuntos(peso);
                     Destroy(gameObject);
                     if (textoUI != null)
                         textoUI.enabled = false;
-
-                    jsonSystem.ContarPuntos(peso);
                 }
             }
         }

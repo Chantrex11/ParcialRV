@@ -87,7 +87,14 @@ public class JsonReadWriteSystem : MonoBehaviour
 
     public void LoadFromJson()
     {
-        click.Play();
+        if (click != null)
+        {
+            click.Play();
+        }
+        else
+        {
+            Debug.LogWarning("AudioSource click no asignado en JsonReadWriteSystem");
+        }
         if (!File.Exists(filePath)) return;
 
         string json = File.ReadAllText(filePath);
@@ -153,5 +160,16 @@ public class JsonReadWriteSystem : MonoBehaviour
 
         return ultimoJugador;
     }
+
+    public List<PlayerData> GetAllPlayers()
+    {
+        if (!File.Exists(filePath))
+            return new List<PlayerData>();
+
+        string json = File.ReadAllText(filePath);
+        PlayerList data = JsonUtility.FromJson<PlayerList>(json);
+        return data != null ? data.players : new List<PlayerData>();
+    }
+
 
 }
