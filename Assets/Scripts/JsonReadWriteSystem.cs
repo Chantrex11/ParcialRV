@@ -40,22 +40,23 @@ public class JsonReadWriteSystem : MonoBehaviour
 
     void Awake()
     {
+        // Usar carpeta segura para Editor y Build
         filePath = Path.Combine(Application.persistentDataPath, "PlayerData.json");
+        Debug.Log("[Json] Ruta JSON: " + filePath);
 
-        if (File.Exists(filePath))
+        // Si no existe, crear uno vacío de una vez
+        if (!File.Exists(filePath))
         {
-            string json = File.ReadAllText(filePath);
-            playerList = JsonUtility.FromJson<PlayerList>(json);
-
-            if (playerList == null)
-                playerList = new PlayerList();
+            playerList = new PlayerList(); // lista vacía
+            string jsonVacio = JsonUtility.ToJson(playerList, true);
+            File.WriteAllText(filePath, jsonVacio);
+            Debug.Log("[Json] Creado JSON vacío.");
         }
         else
         {
-            playerList = new PlayerList();
+            string json = File.ReadAllText(filePath);
+            playerList = JsonUtility.FromJson<PlayerList>(json) ?? new PlayerList();
         }
-
-        Debug.Log("Ruta JSON: " + filePath);
     }
 
 
@@ -69,23 +70,23 @@ public class JsonReadWriteSystem : MonoBehaviour
         newPlayer.Age = int.Parse(ageInputField.text);
         newPlayer.City = cityInputField.text;
 
-        click.Play(); // Reproducir sonido de clic
+        if (click != null) click.Play();
 
-        //  Validar duplicados por Nombre o Email
+        // Duplicados
         foreach (var player in playerList.players)
         {
             if (player.Name == newPlayer.Name || player.Email == newPlayer.Email)
             {
-                return; // No guardamos nada
+                Debug.LogWarning("[Json] Nombre o Email ya existen. No se guarda.");
+                return;
             }
         }
 
-        // Si no está repetido, lo agregamos
         playerList.players.Add(newPlayer);
 
         string json = JsonUtility.ToJson(playerList, true);
         File.WriteAllText(filePath, json);
-
+        Debug.Log("[Json] Guardado OK en: " + filePath + " | Total jugadores: " + playerList.players.Count);
     }
 
     public void LoadFromJson()
@@ -117,13 +118,12 @@ public class JsonReadWriteSystem : MonoBehaviour
 
     public void ResetJson()
     {
-
         playerList = new PlayerList();
-        playerList.players = new List<PlayerData>(); // asegurar que se escriba la lista vacía
-        click.Play();
+        if (click != null) click.Play();
+
         string json = JsonUtility.ToJson(playerList, true);
         File.WriteAllText(filePath, json);
-
+        Debug.Log("[Json] RESET. Archivo vacío en: " + filePath);
     }
 
     public PlayerData GetLastPlayer()
