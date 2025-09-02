@@ -40,8 +40,7 @@ public class JsonReadWriteSystem : MonoBehaviour
 
     void Awake()
     {
-
-        filePath = Application.dataPath + "/guardado/PlayerData.json";
+        filePath = Path.Combine(Application.persistentDataPath, "PlayerData.json");
 
         if (File.Exists(filePath))
         {
@@ -55,7 +54,10 @@ public class JsonReadWriteSystem : MonoBehaviour
         {
             playerList = new PlayerList();
         }
+
+        Debug.Log("Ruta JSON: " + filePath);
     }
+
 
     public void SaveToJson()
     {
