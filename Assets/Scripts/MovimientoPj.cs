@@ -13,6 +13,8 @@ public class Movimientopj : MonoBehaviour
     public float gravity = -9.81f;
     public float pushForce = 3f;
 
+    public AudioSource suspiro;
+
     private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
@@ -26,6 +28,8 @@ public class Movimientopj : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
+    private bool isMovingSoundPlaying = false;
+
     void Update()
     {
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
@@ -36,6 +40,7 @@ public class Movimientopj : MonoBehaviour
         verticalRotation = Mathf.Clamp(verticalRotation, -45f, 55f);
         playerCamera.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
 
+        // Movimiento básico
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
         Vector3 move = transform.right * x + transform.forward * z;
@@ -49,33 +54,27 @@ public class Movimientopj : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
 
-        if(z != 0)
-            {
-                anim.SetFloat("trote", Math.Abs(x) + Math.Abs(z));
-            }
-            else
-            {
-                anim.SetFloat("trote", 0);
-            }
-
-        if (x < 0)
-        {
-            anim.SetFloat("izq", Math.Abs(x));
-        }
+        // Animaciones
+        if (z != 0)
+            anim.SetFloat("trote", Math.Abs(x) + Math.Abs(z));
         else
+            anim.SetFloat("trote", 0);
+
+        anim.SetFloat("izq", x < 0 ? Mathf.Abs(x) : 0);
+        anim.SetFloat("der", x > 0 ? Mathf.Abs(x) : 0);
+
+        if ((x != 0 || z != 0) && !isMovingSoundPlaying) 
         {
-            anim.SetFloat("izq", 0);
+            suspiro.Play();
+            isMovingSoundPlaying = true;
+        }
+        else if (x == 0 && z == 0 && isMovingSoundPlaying)
+        {
+            suspiro.Stop();
+            isMovingSoundPlaying = false;
         }
 
-        if (x > 0)
-        {
-            anim.SetFloat("der", Math.Abs(x));
-        }
-        else
-        {
-            anim.SetFloat("der", 0);
-        }
-
+        // Empuje con raycast
         Ray ray = new Ray(playerCamera.position, playerCamera.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, 1.5f))
         {
@@ -84,6 +83,6 @@ public class Movimientopj : MonoBehaviour
             {
                 rb.AddForce(playerCamera.forward * pushForce, ForceMode.Impulse);
             }
-        }
-    }
+        }
+    }
 }

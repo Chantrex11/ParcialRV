@@ -4,6 +4,7 @@ using UnityEngine;
 public class ThirdPersonMovement : MonoBehaviour
 {
     [Header("Movimiento")]
+    public AudioSource rodar;
     public float speed = 6f;
     public float rotationSmooth = 0.1f;
 
@@ -43,22 +44,37 @@ public class ThirdPersonMovement : MonoBehaviour
         MoveCamera();
     }
 
-    private void MovePlayer()
+private void MovePlayer()
+{
+    float h = Input.GetAxisRaw("Horizontal");
+    float v = Input.GetAxisRaw("Vertical");
+    Vector3 dir = new Vector3(h, 0, v).normalized;
+
+    if (dir.magnitude >= 0.1f)
     {
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-        Vector3 dir = new Vector3(h, 0, v).normalized;
-
-        if (dir.magnitude >= 0.1f)
+        // Solo reproducir si NO se está reproduciendo
+        if (!rodar.isPlaying)
         {
-            float targetAngle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, rotationSmooth);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            rodar.Play();
+        }
 
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(moveDir * speed * Time.deltaTime);
+        float targetAngle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+        float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, rotationSmooth);
+        transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+        Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+        controller.Move(moveDir * speed * Time.deltaTime);
+    }
+    else
+    {
+        // Si no hay movimiento, parar el audio
+        if (rodar.isPlaying)
+        {
+            rodar.Stop();
         }
     }
+}
+
 
     private void ApplyGravityAndJump()
     {
