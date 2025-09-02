@@ -39,7 +39,7 @@ public class JsonReadWriteSystem : MonoBehaviour
 
     void Awake()
     {
-        
+
         filePath = Application.dataPath + "/guardado/PlayerData.json";
 
         if (File.Exists(filePath))
@@ -110,7 +110,7 @@ public class JsonReadWriteSystem : MonoBehaviour
 
         playerList = new PlayerList();
         playerList.players = new List<PlayerData>(); // asegurar que se escriba la lista vacía
-        click.Play(); 
+        click.Play();
         string json = JsonUtility.ToJson(playerList, true);
         File.WriteAllText(filePath, json);
 
@@ -126,6 +126,35 @@ public class JsonReadWriteSystem : MonoBehaviour
         }
 
         return playerList.players[playerList.players.Count - 1];
+    }
+
+
+    public PlayerData ContarPuntos(int puntos_sumar)
+    {
+        // Cargamos el JSON
+        LoadFromJson();
+
+        if (playerList.players.Count == 0)
+        {
+            Debug.LogWarning("No hay jugadores registrados.");
+            return null;
         }
+
+        // Tomamos el último jugador (puedes cambiar esto si quieres otro criterio)
+        PlayerData ultimoJugador = playerList.players[playerList.players.Count - 1];
+
+        // Sumamos puntos
+        ultimoJugador.puntos += puntos_sumar;
+
+        // Guardamos de nuevo en el JSON
+        string json = JsonUtility.ToJson(playerList, true);
+        File.WriteAllText(filePath, json);
+
+        Debug.Log("Se sumaron " + puntos_sumar + " puntos a " + ultimoJugador.Name +
+                ". Total: " + ultimoJugador.puntos);
+
+        return ultimoJugador;
+    }
+
 
 }
