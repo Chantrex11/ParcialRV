@@ -36,12 +36,11 @@ public class ObjetoRecogible : MonoBehaviour
         maleta = FindObjectOfType<PesoMaleta>();
 
         if (textoUI != null)
-            textoUI.gameObject.SetActive(false); // desactivamos el GameObject completo
+            textoUI.gameObject.SetActive(false); 
     }
 
     void Update()
     {
-        // Movimiento flotante
         float nuevaY = posicionInicial.y + Mathf.Sin(Time.time * velocidadFlotar) * amplitud;
         transform.position = new Vector3(transform.position.x, nuevaY, transform.position.z);
 
@@ -51,14 +50,11 @@ public class ObjetoRecogible : MonoBehaviour
 
         if (distancia <= radioInteraccion)
         {
-            // Activar texto y actualizar contenido
             if (textoUI != null)
             {
                 textoUI.gameObject.SetActive(true);
                 textoUI.text = "E: Recoger  |  X: Eliminar";
             }
-
-            // Opción 1: Recoger con E
             if (Input.GetKeyDown(KeyCode.E) && maleta != null)
             {
                 if (maleta.AgregarObjeto(peso))
@@ -71,8 +67,6 @@ public class ObjetoRecogible : MonoBehaviour
                         jsonSystem.ContarPuntos(peso);
                 }
             }
-
-            // Opción 2: Eliminar con X
             if (Input.GetKeyDown(KeyCode.X))
             {
                 Destroy(gameObject);

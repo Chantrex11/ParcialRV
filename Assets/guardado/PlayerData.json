@@ -1,18 +1,12 @@
 {
     "players": [
         {
-            "Name": "Jean Carlo",
-            "Email": "chantriix@gmail.com",
-            "Age": 45,
-            "City": "Tumaco",
-            "puntos": 7.800000190734863
-        },
-        {
-            "Name": "Pedro porriño",
-            "Email": "sopademacaco@gmail.com",
-            "Age": 23,
-            "City": "Bucaros",
-            "puntos": 10.0
+            "Name": "DD",
+            "Email": "DDD",
+            "Age": 4,
+            "City": "DD",
+            "puntos": 6.5,
+            "tiempoRestante": 0.0
         }
     ]
 }

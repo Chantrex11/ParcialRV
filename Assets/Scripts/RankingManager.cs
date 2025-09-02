@@ -6,16 +6,17 @@ using System.Collections.Generic;
 public class RankingManager : MonoBehaviour
 {
     [Header("Referencias")]
-    public JsonReadWriteSystem jsonSystem;      // Arrastra el script del JSON aquí
-    public TextMeshProUGUI rankingText;         // Texto donde mostrarás el ranking
-    public GameObject panelRanking;             // Panel que se activa cuando la maleta entra al trigger
+    public JsonReadWriteSystem jsonSystem;     
+    public TextMeshProUGUI rankingText;         
+    public GameObject panelRanking;        
+
+    public PesoMaleta pesoMaletaScript;         
+    public introMaleta introMaletaScript;         
 
     private void Start()
     {
         if (panelRanking != null)
-            panelRanking.SetActive(false); // Ocultar el panel al inicio
-
-        //panelRanking = GameObject.Find("PanelRanking");
+            panelRanking.SetActive(false); 
     }
 
     private void OnTriggerEnter(Collider other)
@@ -24,7 +25,14 @@ public class RankingManager : MonoBehaviour
         {
             if (panelRanking != null)
                 panelRanking.SetActive(true);
+
             Cursor.lockState = CursorLockMode.None;
+
+            if (pesoMaletaScript != null && introMaletaScript != null && jsonSystem != null)
+            {
+                float puntajeFinal = pesoMaletaScript.ObtenerPesoTotal() + introMaletaScript.tiempoTranscurrido;
+                jsonSystem.ContarPuntos(puntajeFinal);
+            }
             ActualizarRanking();
         }
     }

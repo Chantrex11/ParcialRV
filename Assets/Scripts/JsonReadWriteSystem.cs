@@ -21,6 +21,7 @@ public class JsonReadWriteSystem : MonoBehaviour
         public int Age;
         public string City;
         public float puntos = 4f;
+        public float tiempoRestante = 0f;
     }
 
     [Serializable]
@@ -138,7 +139,6 @@ public class JsonReadWriteSystem : MonoBehaviour
 
     public PlayerData ContarPuntos(float puntos_sumar)
     {
-        // Cargamos el JSON
         LoadFromJson();
 
         if (playerList.players.Count == 0)
@@ -147,14 +147,12 @@ public class JsonReadWriteSystem : MonoBehaviour
             return null;
         }
 
-        // Tomamos el último jugador (puedes cambiar esto si quieres otro criterio)
         PlayerData ultimoJugador = playerList.players[playerList.players.Count - 1];
 
-        // Sumamos puntos
+
         ultimoJugador.puntos += puntos_sumar;
         ultimoJugador.puntos = (float)Math.Round(ultimoJugador.puntos, 2);
 
-        // Guardamos de nuevo en el JSON
         string json = JsonUtility.ToJson(playerList, true);
         File.WriteAllText(filePath, json);
 

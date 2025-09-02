@@ -26,7 +26,8 @@ public class introMaleta : MonoBehaviour
     [Header("Cronómetro")]
     public TMP_Text textoCronometro;
     private bool cronometroActivo = false;
-    private float tiempoTranscurrido = 40f;
+    [HideInInspector]
+    public float tiempoTranscurrido = 40f;
 
     
 
@@ -120,11 +121,6 @@ public class introMaleta : MonoBehaviour
         if (cronometroActivo)
         {
         tiempoTranscurrido -= Time.deltaTime;
-        if (tiempoTranscurrido < 0)
-        {
-            tiempoTranscurrido = 0;
-            cronometroActivo = false;
-        }
 
         if (textoCronometro != null)
             textoCronometro.text = "Tiempo: " + tiempoTranscurrido.ToString("F2") + "s";
