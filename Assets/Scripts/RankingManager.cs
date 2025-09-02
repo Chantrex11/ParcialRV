@@ -45,7 +45,6 @@ public class RankingManager : MonoBehaviour
         var ordenados = lista.OrderByDescending(p => p.puntos).ToList();
 
         System.Text.StringBuilder sb = new System.Text.StringBuilder();
-        sb.AppendLine("RANKING");
         sb.AppendLine("");
 
         for (int i = 0; i < ordenados.Count; i++)
