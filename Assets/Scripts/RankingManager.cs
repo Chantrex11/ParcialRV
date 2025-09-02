@@ -14,6 +14,8 @@ public class RankingManager : MonoBehaviour
     {
         if (panelRanking != null)
             panelRanking.SetActive(false); // Ocultar el panel al inicio
+
+        panelRanking = GameObject.Find("PanelRanking");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -22,7 +24,7 @@ public class RankingManager : MonoBehaviour
         {
             if (panelRanking != null)
                 panelRanking.SetActive(true);
-
+            Time.timeScale = 0f; // Pausar el juego
             ActualizarRanking();
         }
     }
