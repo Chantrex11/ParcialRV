@@ -56,7 +56,7 @@ public class PesoMaleta : MonoBehaviour
     {
         if (textoPeso != null)
         {
-            textoPeso.text = "Peso: " + ObtenerPesoTotal().ToString("F1") + " / " + capacidadMaxima + " kg";
+            textoPeso.text = "Peso: " + ObtenerPesoTotal().ToString("F1") + " | " + capacidadMaxima + " kg";
         }
     }
 }
