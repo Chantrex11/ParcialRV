@@ -1,18 +1,18 @@
 {
     "players": [
         {
-            "Name": "san",
-            "Email": "san",
-            "Age": 23,
-            "City": "cali",
-            "puntos": 5.5
+            "Name": "Jean Carlo",
+            "Email": "chantriix@gmail.com",
+            "Age": 45,
+            "City": "Tumaco",
+            "puntos": 7.800000190734863
         },
         {
-            "Name": "jean",
-            "Email": "jean@",
+            "Name": "Pedro porriño",
+            "Email": "sopademacaco@gmail.com",
             "Age": 23,
-            "City": "cali",
-            "puntos": 7.400000095367432
+            "City": "Bucaros",
+            "puntos": 4.0
         }
     ]
 }

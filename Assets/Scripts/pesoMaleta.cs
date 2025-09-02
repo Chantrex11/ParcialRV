@@ -13,9 +13,24 @@ public class PesoMaleta : MonoBehaviour
     [Header("UI")]
     public TextMeshProUGUI textoPeso; 
 
+    [Header("Referencia a introMaleta")]
+    public introMaleta introScript; // Arrastra tu objeto con el script introMaleta
+
     private void Start()
     {
         ActualizarTexto();
+        if (textoPeso != null)
+            textoPeso.enabled = false;
+
+    }
+
+    private void Update()
+    {
+        if (introScript != null && textoPeso != null)
+        {
+            // Mostrar solo si la cámara de intro está activa
+            textoPeso.enabled = introScript.camaraIntro.enabled;
+        }
     }
 
     public bool AgregarObjeto(float pesoObjeto)

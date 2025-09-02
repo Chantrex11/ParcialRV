@@ -23,6 +23,13 @@ public class introMaleta : MonoBehaviour
     [Header("Tiempo que la cámara del celular permanece activa")]
     public float tiempoCelular = 4f;
 
+    [Header("Cronómetro")]
+    public TMP_Text textoCronometro;
+    private bool cronometroActivo = false;
+    private float tiempoTranscurrido = 0f;
+
+    
+
     [Header("Texto de instrucción")]
     public TMP_Text textoInstruccion; 
     public Image imagenInstruccion; 
@@ -50,6 +57,8 @@ public class introMaleta : MonoBehaviour
             textoInstruccion.text = "Presiona                             para continuar";
             textoInstruccion.enabled = false;
         }
+        if (textoCronometro != null)
+            textoCronometro.enabled = false;
 
         StartCoroutine(CambioCelularAIntro());
     }
@@ -73,41 +82,46 @@ public class introMaleta : MonoBehaviour
         }
 
         if (introTerminada && !activo && Input.GetKeyDown(KeyCode.Space))
+{
+    if (textoInstruccion != null)
+        textoInstruccion.enabled = false;
+
+    if (imagenInstruccion != null)
+        imagenInstruccion.enabled = false;
+
+    transform.SetParent(null);
+
+    if (puntoInicioJugador != null)
+    {
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+            rb.isKinematic = true;
+
+        transform.position = puntoInicioJugador.position;
+        transform.rotation = puntoInicioJugador.rotation;
+
+        if (rb != null)
+            rb.isKinematic = false;
+    }
+
+    activo = true;
+    cronometroActivo = true; 
+    tiempoTranscurrido = 0f;
+
+    if (textoCronometro != null)
+        textoCronometro.enabled = true;
+
+    if (scriptMovimientoJugador != null)
+        scriptMovimientoJugador.enabled = true;
+
+    if (camaraIntro != null) camaraIntro.enabled = false;
+    if (camaraGameplay != null) camaraGameplay.enabled = true;
+}
+        if (cronometroActivo)
         {
-            if (textoInstruccion != null)
-                textoInstruccion.enabled = false;
-
-            if (imagenInstruccion != null)
-                imagenInstruccion.enabled = false;
-
-            transform.SetParent(null);
-
-            if (puntoInicioJugador != null)
-            {
-                Rigidbody rb = GetComponent<Rigidbody>();
-                if (rb != null)
-                {
-
-                    rb.isKinematic = true;
-                }
-
-                transform.position = puntoInicioJugador.position;
-                transform.rotation = puntoInicioJugador.rotation;
-
-                if (rb != null)
-                {
-                    rb.isKinematic = false;
-                }
-
-                Debug.Log("Maleta movida exactamente al Empty: " + puntoInicioJugador.position);
-            }
-            activo = true;
-
-            if (scriptMovimientoJugador != null)
-                scriptMovimientoJugador.enabled = true;
-
-            if (camaraIntro != null) camaraIntro.enabled = false;
-            if (camaraGameplay != null) camaraGameplay.enabled = true;
+        tiempoTranscurrido += Time.deltaTime;
+            if (textoCronometro != null)
+                textoCronometro.text = "Tiempo: " + tiempoTranscurrido.ToString("F2") + "s";
         }
     }
 
