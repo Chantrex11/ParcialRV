@@ -26,6 +26,7 @@ public class ObjetoRecogible : MonoBehaviour
         {
             jsonSystem = FindObjectOfType<JsonReadWriteSystem>();
         }
+
         posicionInicial = transform.position;
 
         GameObject objJugador = GameObject.FindGameObjectWithTag("Maleta");
@@ -35,12 +36,12 @@ public class ObjetoRecogible : MonoBehaviour
         maleta = FindObjectOfType<PesoMaleta>();
 
         if (textoUI != null)
-            textoUI.enabled = false;
+            textoUI.gameObject.SetActive(false); // desactivamos el GameObject completo
     }
 
     void Update()
     {
-        // Movimiento flotante decorativo
+        // Movimiento flotante
         float nuevaY = posicionInicial.y + Mathf.Sin(Time.time * velocidadFlotar) * amplitud;
         transform.position = new Vector3(transform.position.x, nuevaY, transform.position.z);
 
@@ -50,10 +51,10 @@ public class ObjetoRecogible : MonoBehaviour
 
         if (distancia <= radioInteraccion)
         {
-            // Mostrar texto con las dos opciones
+            // Activar texto y actualizar contenido
             if (textoUI != null)
             {
-                textoUI.enabled = true;
+                textoUI.gameObject.SetActive(true);
                 textoUI.text = "E: Recoger  |  X: Eliminar";
             }
 
@@ -64,7 +65,7 @@ public class ObjetoRecogible : MonoBehaviour
                 {
                     Destroy(gameObject);
                     if (textoUI != null)
-                        textoUI.enabled = false;
+                        textoUI.gameObject.SetActive(false);
 
                     if (jsonSystem != null)
                         jsonSystem.ContarPuntos(peso);
@@ -76,13 +77,13 @@ public class ObjetoRecogible : MonoBehaviour
             {
                 Destroy(gameObject);
                 if (textoUI != null)
-                    textoUI.enabled = false;
+                    textoUI.gameObject.SetActive(false);
             }
         }
         else
         {
             if (textoUI != null)
-                textoUI.enabled = false;
+                textoUI.gameObject.SetActive(false);
         }
     }
 }

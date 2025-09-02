@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using TMPro;
 
 public class introMaleta : MonoBehaviour
 {
@@ -21,8 +23,13 @@ public class introMaleta : MonoBehaviour
     [Header("Tiempo que la cámara del celular permanece activa")]
     public float tiempoCelular = 4f;
 
+    [Header("Texto de instrucción")]
+    public TMP_Text textoInstruccion; 
+    public Image imagenInstruccion; 
+
     private bool activo = false;          
     private bool introTerminada = false;  
+    private bool instruccionMostrada = false;
 
     void Start()
     {
@@ -35,6 +42,15 @@ public class introMaleta : MonoBehaviour
         if (camaraIntro != null) camaraIntro.enabled = false;
         if (camaraGameplay != null) camaraGameplay.enabled = false;
 
+        if (imagenInstruccion != null)
+            imagenInstruccion.enabled = false;
+
+        if (textoInstruccion != null)
+        {
+            textoInstruccion.text = "Presiona                             para continuar";
+            textoInstruccion.enabled = false;
+        }
+
         StartCoroutine(CambioCelularAIntro());
     }
 
@@ -45,8 +61,25 @@ public class introMaleta : MonoBehaviour
             transform.Translate(direccion * velocidadBanda * Time.deltaTime, Space.World);
         }
 
+        if (introTerminada && !instruccionMostrada)
+        {
+        if (textoInstruccion != null)
+            textoInstruccion.enabled = true;
+
+        if (imagenInstruccion != null)
+            imagenInstruccion.enabled = true;
+
+        instruccionMostrada = true; 
+        }
+
         if (introTerminada && !activo && Input.GetKeyDown(KeyCode.Space))
         {
+            if (textoInstruccion != null)
+                textoInstruccion.enabled = false;
+
+            if (imagenInstruccion != null)
+                imagenInstruccion.enabled = false;
+
             transform.SetParent(null);
 
             if (puntoInicioJugador != null)
