@@ -10,7 +10,7 @@ public class EscenaManager : MonoBehaviour
 {
     public static EscenaManager instance;
     [SerializeField] Animator transition;
-    [SerializeField] private Canvas nombreJugador;
+    //[SerializeField] private Canvas nombreJugador;
     [SerializeField] private AudioSource click;
 
     private void Awake()
@@ -64,7 +64,7 @@ public class EscenaManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         transition.SetTrigger("Start");
         yield return new WaitForSeconds(1f);
-        nombreJugador.gameObject.SetActive(true);
+        //nombreJugador.gameObject.SetActive(true);
     }
 
     public void salirJuego()

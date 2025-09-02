@@ -18,14 +18,14 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
 
             // Suscribirnos al evento de carga de escena
-            SceneManager.sceneLoaded += OnSceneLoaded;
+           // SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
             Destroy(gameObject);
         }
     }
-
+/*
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (jsonSystem.GetLastPlayer() != null)
@@ -33,4 +33,5 @@ public class GameManager : MonoBehaviour
             nombreJugadorText.text = jsonSystem.GetLastPlayer().Name;
         }
     }
+*/
 }
