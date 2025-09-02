@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class RankinManager : MonoBehaviour
 {
-    public JsonReadWriteSystem jsonReadWriteSystem;
+    public JsonReadWriteSystem jsonSystem;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

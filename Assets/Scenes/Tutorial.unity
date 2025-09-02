@@ -2642,9 +2642,10 @@ MonoBehaviour:
     ten\xEDas todo."
   - "\xBFSabes que?"
   - "T\xFA maleta es inteligente, est\xE1 conectada a tu celular, tiene GPS y adem\xE1s
-    B\xC1SCULA, te ahorras  un proceso ac\xE1."
+    B\xC1SCULA, te ahorras un proceso ac\xE1."
   - "Traela con el control remoto para que no vuelvas al check-in. Sientate y conectate
     desde all\xED."
+  - PERO ANTES RECOGE TODO, COMO VENIAS CORRIENDO SE TE CAYERON ALGUNAS COSAS
 --- !u!65 &738538108
 BoxCollider:
   m_ObjectHideFlags: 0

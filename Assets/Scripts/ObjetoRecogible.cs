@@ -18,8 +18,14 @@ public class ObjetoRecogible : MonoBehaviour
     private Transform jugador;
     private PesoMaleta maleta;
 
+    [SerializeField] private JsonReadWriteSystem jsonSystem;
+
     void Start()
     {
+            if (jsonSystem == null)
+            {
+                jsonSystem = FindObjectOfType<JsonReadWriteSystem>();
+            }
         posicionInicial = transform.position;
         GameObject objJugador = GameObject.FindGameObjectWithTag("Player");
         if (objJugador != null)
@@ -54,6 +60,8 @@ public class ObjetoRecogible : MonoBehaviour
                     Destroy(gameObject);
                     if (textoUI != null)
                         textoUI.enabled = false;
+
+                    jsonSystem.ContarPuntos(peso);
                 }
             }
         }

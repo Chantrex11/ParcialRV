@@ -1,18 +1,18 @@
 {
     "players": [
         {
-            "Name": "hola",
-            "Email": "chan tre",
-            "Age": 12,
-            "City": "csaw",
-            "puntos": 0
+            "Name": "san",
+            "Email": "sad",
+            "Age": 20,
+            "City": "dasfdas",
+            "puntos": 4.099999904632568
         },
         {
-            "Name": "asd",
-            "Email": "asd",
-            "Age": 123,
-            "City": "asd",
-            "puntos": 0
+            "Name": "yo",
+            "Email": "yiiy",
+            "Age": 564,
+            "City": "yoyo",
+            "puntos": 5.5
         }
     ]
 }
