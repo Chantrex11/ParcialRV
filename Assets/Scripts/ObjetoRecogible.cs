@@ -11,7 +11,7 @@ public class ObjetoRecogible : MonoBehaviour
     public float velocidadFlotar = 4f;
 
     [Header("Interacción")]
-    public float radioInteraccion = 2f;   // Distancia para poder coger
+    public float radioInteraccion = 2f;
     public TextMeshProUGUI textoUI;
 
     private Vector3 posicionInicial;
@@ -23,11 +23,11 @@ public class ObjetoRecogible : MonoBehaviour
     void Start()
     {
         if (jsonSystem == null)
+        {
             jsonSystem = FindObjectOfType<JsonReadWriteSystem>();
-
+        }
         posicionInicial = transform.position;
 
-        // Buscar jugador (Maleta)
         GameObject objJugador = GameObject.FindGameObjectWithTag("Maleta");
         if (objJugador != null)
             jugador = objJugador.transform;
@@ -46,24 +46,37 @@ public class ObjetoRecogible : MonoBehaviour
 
         if (jugador == null) return;
 
-        // Calculamos la distancia al jugador
         float distancia = Vector3.Distance(transform.position, jugador.position);
 
         if (distancia <= radioInteraccion)
         {
+            // Mostrar texto con las dos opciones
             if (textoUI != null)
+            {
                 textoUI.enabled = true;
+                textoUI.text = "E: Recoger  |  X: Eliminar";
+            }
 
-            // Si presiona E, recoger objeto
+            // Opción 1: Recoger con E
             if (Input.GetKeyDown(KeyCode.E) && maleta != null)
             {
                 if (maleta.AgregarObjeto(peso))
                 {
-                    jsonSystem.ContarPuntos(peso);
                     Destroy(gameObject);
                     if (textoUI != null)
                         textoUI.enabled = false;
+
+                    if (jsonSystem != null)
+                        jsonSystem.ContarPuntos(peso);
                 }
+            }
+
+            // Opción 2: Eliminar con X
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                Destroy(gameObject);
+                if (textoUI != null)
+                    textoUI.enabled = false;
             }
         }
         else
